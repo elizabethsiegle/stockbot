@@ -51,6 +51,10 @@ import Control.Monad.IO.Class
 import qualified Data.Text as Text
 import qualified Data.Text.IO as Text
 
+import Twilio
+import Twilio.Calls as Calls
+import Twilio.Messages
+
 readSlackFile :: FilePath -> IO Text
 readSlackFile filename =
   T.filter (/= '\n') . T.pack <$> Prelude.readFile filename
@@ -75,7 +79,7 @@ messageOfCommandStock (Command "stock" user channel (Just text)) = do
   case res of
     Right responseQuotes ->
       return (messageOf [FormatAt user, FormatString (T.pack(show responseQuotes))])
-      where 
+      where
         messageOf =
           FormattedMessage(EmojiIcon "gift") "stockbot" channel
 
